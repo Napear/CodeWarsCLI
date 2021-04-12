@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -7,6 +8,7 @@ const core_1 = require("@caporal/core");
 const axios_observable_1 = __importDefault(require("axios-observable"));
 const enums_1 = require("./enums");
 const API_URL = 'https://www.codewars.com/api/v1/';
+const USER_ENDPOINT = API_URL + 'users/';
 function getRequiredScore(rank) {
     switch (rank) {
         case -1: return enums_1.RequiredScore.FIRST;
@@ -20,9 +22,9 @@ function getRequiredScore(rank) {
         default: return 0;
     }
 }
-function getRankUpDelta(user) {
+function getRankUpDelta(user, target = 1) {
     const currentScore = user.ranks.overall.score;
-    const requiredScore = getRequiredScore(user.ranks.overall.rank + 1);
+    const requiredScore = getRequiredScore(user.ranks.overall.rank + target);
     return requiredScore - currentScore;
 }
 core_1.program
@@ -38,7 +40,7 @@ core_1.program
         }
         logger.info(output);
     }
-    axios_observable_1.default.get(API_URL + 'users/' + args.user)
+    axios_observable_1.default.get(USER_ENDPOINT + args.user)
         .subscribe(response => {
         const user = response.data;
         logger.info(`${args.user} info:\n\tOverall score:${user.ranks.overall.score}`);
@@ -48,6 +50,23 @@ core_1.program
         else if (options.language) {
             let lang = options.language.toString().toLowerCase();
             logger.info(`\t${lang.toLowerCase()} score:${user.ranks.languages[lang].score || 0}`);
+        }
+    });
+})
+    .command('rankUp', "Get shortest path to next rank")
+    .argument('<user>', 'Name of the user to look up')
+    .option('-t, --target <targetRank>', 'Targeting a specific rank')
+    .option('-s, --score-only', 'Return only score required to rank up')
+    .action(({ logger, args, options }) => {
+    axios_observable_1.default.get(USER_ENDPOINT + args.user)
+        .subscribe(response => {
+        const user = response.data;
+        const rankUpDelta = (options.target) ? getRankUpDelta(user, (+options.target) - user.ranks.overall.rank) : getRankUpDelta(user);
+        if (options.scoreOnly) {
+            logger.info(`${rankUpDelta} points required for next rank`);
+        }
+        else {
+            logger.info("Not Yet Implemented");
         }
     });
 });

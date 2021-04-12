@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { program } from "@caporal/core"
 import Axios from "axios-observable"
 import { using } from "rxjs"

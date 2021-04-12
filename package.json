@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "CLI to interact with the Codewars API",
   "main": "./bin/codewars.js",
+  "bin":{
+    "codewars":"./bin/codewars.js"
+  },
   "author": "Napear",
   "license": "GNU GPLv3",
   "private": false,
