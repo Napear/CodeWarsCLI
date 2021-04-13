@@ -19,3 +19,14 @@ export enum RequiredScore {
     SECOND = 4829,
     FIRST = 13147
 }
+
+export const PUZZLE_SCORES = {
+    '1st kyu':ScoreAward.FIRST, 
+    '2nd kyu':ScoreAward.SECOND, 
+    '3rd kyu':ScoreAward.THIRD, 
+    '4th kyu':ScoreAward.FOURTH, 
+    '5th kyu':ScoreAward.FIFTH, 
+    '6th kyu':ScoreAward.SIXTH, 
+    '7th kyu':ScoreAward.SEVENTH, 
+    '8th kyu':ScoreAward.EIGHTH
+}
