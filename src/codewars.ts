@@ -40,17 +40,17 @@ program
             for (let lang in user.ranks.languages){
                 output += `\t\t${lang} score:${user.ranks.languages[lang].score}\n`
             }
-            logger.info(output)
+            console.log(output)
         }
         Axios.get(USER_ENDPOINT+args.user)
             .subscribe(response => {
                 const user: User = response.data
-                logger.info(`${args.user} info:\n\tOverall score:${user.ranks.overall.score}`)
+                console.log(`${args.user} info:\n\tOverall score:${user.ranks.overall.score}`)
                 if(options.all){
                     showAllScores(user)
                 } else if (options.language){
                     let lang:string = options.language.toString().toLowerCase()
-                    logger.info(`\t${lang.toLowerCase()} score:${user.ranks.languages[lang].score || 0}`)
+                    console.log(`\t${lang.toLowerCase()} score:${user.ranks.languages[lang].score || 0}`)
                 }
             }
         )
@@ -66,9 +66,9 @@ program
                 const user: User = response.data
                 const rankUpDelta = (options.target) ? getRankUpDelta(user, (+options.target)-user.ranks.overall.rank) : getRankUpDelta(user)
                 if (options.scoreOnly){
-                    logger.info(`${rankUpDelta} points required for next rank`)
+                    console.log(`${rankUpDelta} points required for next rank`)
                 } else {
-                    logger.info("Not Yet Implemented")
+                    console.log("Not Yet Implemented")
                 }
             })
     })
