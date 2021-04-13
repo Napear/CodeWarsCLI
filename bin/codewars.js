@@ -53,7 +53,7 @@ core_1.program
         }
     });
 })
-    .command('rankUp', "Get shortest path to next rank")
+    .command('rankup', "Get shortest path to next rank")
     .argument('<user>', 'Name of the user to look up')
     .option('-t, --target <targetRank>', 'Targeting a specific rank')
     .option('-s, --score-only', 'Return only score required to rank up')
@@ -63,7 +63,7 @@ core_1.program
         const user = response.data;
         const rankUpDelta = (options.target) ? getRankUpDelta(user, (+options.target) - user.ranks.overall.rank) : getRankUpDelta(user);
         if (options.scoreOnly) {
-            console.log(`${rankUpDelta} points required for next rank`);
+            console.log(`${args.user} requires ${rankUpDelta} points to rank up!`);
         }
         else {
             console.log("Not Yet Implemented");
